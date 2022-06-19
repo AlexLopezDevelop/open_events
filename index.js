@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 const swaggerUi = require('swagger-ui-express')
 const swaggerJsdoc = require('swagger-jsdoc')
-const openeventRouter = require('./routes/openevent')
+const openeventRouter = require('./routes/index.js')
 
 const port = 3000
 const swaggerOptions = {
@@ -23,3 +23,9 @@ const swaggerDocs = swaggerJsdoc(swaggerOptions)
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
 app.use(openeventRouter)
 app.use(express.json())
+
+app.listen(port, () => {
+    console.log(`http://localhost:${port}`)
+})
+
+module.exports = app;

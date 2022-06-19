@@ -8,17 +8,17 @@ const {
 } = require("./controllers/event");
 const eventSettings = require('express').Router({ mergeParams: true });
 
-eventSettings.post("/events", createEvent)
-eventSettings.get("/events", getAllFutureEvents)
-eventSettings.get("/events/{id}", getEventById)
-eventSettings.get("/events/best", getAllFutureEventsByScore)
-eventSettings.get("/events/search", searchEvent)
-eventSettings.put("/events/{id}", editEvent)
-eventSettings.delete("/events/{id}", deleteEvent)
-eventSettings.get("/events/{id}/assistances", getAllAssistancesById)
-eventSettings.get("/events/{event_id}/assistances/{user_id}", getAssistance)
-eventSettings.post("/events/{id}/assistances", createAssistance)
-eventSettings.put("/events/{id}/assistances", editAssistance)
-eventSettings.delete("/events/{id}/assistances", deleteAssistance)
+eventSettings.post("", createEvent)
+eventSettings.get("", getAllFutureEvents)
+eventSettings.get("/{id}", getEventById)
+eventSettings.get("/best", getAllFutureEventsByScore)
+eventSettings.get("/search", searchEvent)
+eventSettings.put("/{id}", editEvent)
+eventSettings.delete("/{id}", deleteEvent)
+eventSettings.get("/{id}/assistances", getAllAssistancesById)
+eventSettings.get("/{event_id}/assistances/{user_id}", getAssistance)
+eventSettings.post("/{id}/assistances", createAssistance)
+eventSettings.put("/{id}/assistances", editAssistance)
+eventSettings.delete("/{id}/assistances", deleteAssistance)
 
 module.exports = eventSettings;

@@ -5,10 +5,10 @@ const AssistanceRouter = require('./assistance')
 const messageRouter = require('./message')
 const friendRouter = require('./friend')
 
-openeventRouter.use('/user', UserRouter)
-openeventRouter.use('/event', EventRouter)
-openeventRouter.use('/assistance', AssistanceRouter)
-openeventRouter.use('/message', messageRouter)
-openeventRouter.use('/friend', friendRouter)
+openeventRouter.use('/users', UserRouter)
+openeventRouter.use('/events', EventRouter)
+openeventRouter.use('/assistances', AssistanceRouter)
+openeventRouter.use('/messages', messageRouter)
+openeventRouter.use('/friends', friendRouter)
 
 module.exports = openeventRouter

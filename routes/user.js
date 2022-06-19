@@ -4,22 +4,30 @@ const {
   getAllUserFutureEventsWithAssistances, getAllUserPastEventsWithAssistances, getAllUserFriends
 } = require("./controllers/user");
 const userSettings = require('express').Router({ mergeParams: true });
+const bodyParser = require('body-parser').json();
+/**
+ * @swagger
+ * tags:
+ *  name: User
+ *  description: User management
+ */
 
-userSettings.post("/users", createUser)
-userSettings.post("/users/login", authUser)
-userSettings.get("/users", getAllUsers)
-userSettings.get("/users/{id}", getUserById)
-userSettings.get("/users/search", searchUser)
-userSettings.get("/users/{id}/statistics", getUserStatistics)
-userSettings.put("/users", editUser)
-userSettings.delete("/users", deleteAuthUser)
-userSettings.get("/users/{id}/events", getAllUserEvents)
-userSettings.get("/users/{id}/events/future", getUserFutureEvents)
-userSettings.get("/users/{id}/events/finished", getUserPastEvents)
-userSettings.get("/users/{id}/current", getUserNowEvents)
-userSettings.get("/users/{id}/assistances", getAllUserEventsWithAssistances)
-userSettings.get("/users/{id}/assistances/future", getAllUserFutureEventsWithAssistances)
-userSettings.get("/users/{id}/assistances/finished", getAllUserPastEventsWithAssistances)
-userSettings.get("/users/{id}/friends", getAllUserFriends)
+
+userSettings.post("", bodyParser, createUser)
+userSettings.post("/login", authUser)
+userSettings.get("", getAllUsers)
+userSettings.get("/{id}", getUserById)
+userSettings.get("/search", searchUser)
+userSettings.get("/{id}/statistics", getUserStatistics)
+userSettings.put("", editUser)
+userSettings.delete("", deleteAuthUser)
+userSettings.get("/{id}/events", getAllUserEvents)
+userSettings.get("/{id}/events/future", getUserFutureEvents)
+userSettings.get("/{id}/events/finished", getUserPastEvents)
+userSettings.get("/{id}/current", getUserNowEvents)
+userSettings.get("/{id}/assistances", getAllUserEventsWithAssistances)
+userSettings.get("/{id}/assistances/future", getAllUserFutureEventsWithAssistances)
+userSettings.get("/{id}/assistances/finished", getAllUserPastEventsWithAssistances)
+userSettings.get("/{id}/friends", getAllUserFriends)
 
 module.exports = userSettings;
