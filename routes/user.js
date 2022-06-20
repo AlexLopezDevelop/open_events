@@ -3,6 +3,7 @@ const {
   getAllUserEvents, getUserFutureEvents, getUserPastEvents, getUserNowEvents, getAllUserEventsWithAssistances,
   getAllUserFutureEventsWithAssistances, getAllUserPastEventsWithAssistances, getAllUserFriends
 } = require("./controllers/user");
+const { privateRoute } = require("../middleware/privateRoute");
 const userSettings = require('express').Router({ mergeParams: true });
 const bodyParser = require('body-parser').json();
 /**
@@ -14,20 +15,20 @@ const bodyParser = require('body-parser').json();
 
 
 userSettings.post("", bodyParser, createUser)
-userSettings.post("/login", authUser)
-userSettings.get("", getAllUsers)
-userSettings.get("/{id}", getUserById)
-userSettings.get("/search", searchUser)
-userSettings.get("/{id}/statistics", getUserStatistics)
-userSettings.put("", editUser)
-userSettings.delete("", deleteAuthUser)
-userSettings.get("/{id}/events", getAllUserEvents)
-userSettings.get("/{id}/events/future", getUserFutureEvents)
-userSettings.get("/{id}/events/finished", getUserPastEvents)
-userSettings.get("/{id}/current", getUserNowEvents)
-userSettings.get("/{id}/assistances", getAllUserEventsWithAssistances)
-userSettings.get("/{id}/assistances/future", getAllUserFutureEventsWithAssistances)
-userSettings.get("/{id}/assistances/finished", getAllUserPastEventsWithAssistances)
-userSettings.get("/{id}/friends", getAllUserFriends)
+userSettings.post("/login", bodyParser, authUser)
+userSettings.get("", privateRoute, getAllUsers)
+userSettings.get("/{id}", bodyParser, getUserById)
+userSettings.get("/search", bodyParser, searchUser)
+userSettings.get("/{id}/statistics", bodyParser, getUserStatistics)
+userSettings.put("", bodyParser, editUser)
+userSettings.delete("", bodyParser, deleteAuthUser)
+userSettings.get("/{id}/events", bodyParser, getAllUserEvents)
+userSettings.get("/{id}/events/future", bodyParser, getUserFutureEvents)
+userSettings.get("/{id}/events/finished", bodyParser, getUserPastEvents)
+userSettings.get("/{id}/current", bodyParser, getUserNowEvents)
+userSettings.get("/{id}/assistances", bodyParser, getAllUserEventsWithAssistances)
+userSettings.get("/{id}/assistances/future", bodyParser, getAllUserFutureEventsWithAssistances)
+userSettings.get("/{id}/assistances/finished", bodyParser, getAllUserPastEventsWithAssistances)
+userSettings.get("/{id}/friends", bodyParser, getAllUserFriends)
 
 module.exports = userSettings;
