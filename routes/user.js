@@ -17,7 +17,7 @@ const bodyParser = require('body-parser').json();
 userSettings.post("", bodyParser, createUser)
 userSettings.post("/login", bodyParser, authUser)
 userSettings.get("", privateRoute, getAllUsers)
-userSettings.get("/{id}", bodyParser, getUserById)
+userSettings.get("/:id", privateRoute, getUserById)
 userSettings.get("/search", bodyParser, searchUser)
 userSettings.get("/{id}/statistics", bodyParser, getUserStatistics)
 userSettings.put("", bodyParser, editUser)

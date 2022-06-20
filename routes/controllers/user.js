@@ -6,7 +6,7 @@ require('dotenv').config()
 
 const createUser = async (req, res) => {
   try {
-    let { name, last_name, email, password, image } = req.body;
+    const { name, last_name, email, password, image } = req.body;
 
     const connection = mysql.createConnection(process.env.DATABASE_URL);
     const encryptedPassword = await bcrypt.hash(password, 10);
@@ -17,7 +17,7 @@ const createUser = async (req, res) => {
       [name, last_name, email, encryptedPassword, image],
       function (err, results, fields) {
 
-        if (err) return res.json({ error: err });
+        if (err) throw err;
         if (results.length === 0) {
           throw ("no se ha podido añadir el usuario")
         }
@@ -43,7 +43,7 @@ const createUser = async (req, res) => {
 
 const authUser = async (req, res) => {
   try {
-    let { email, password } = req.body;
+    const { email, password } = req.body;
 
     const connection = mysql.createConnection(process.env.DATABASE_URL);
 
@@ -90,7 +90,7 @@ const getAllUsers = async (req, res) => {
       [],
       function (err, results, fields) {
 
-        if (err) return res.json({ error: err });
+        if (err) throw err;
         if (results.length === 0) {
           throw "no hay usuarios"
         }
@@ -109,6 +109,23 @@ const getAllUsers = async (req, res) => {
 
 const getUserById = async (req, res) => {
   try {
+    const { id } = req.params;
+
+    const connection = mysql.createConnection(process.env.DATABASE_URL);
+
+    connection.query(
+      "SELECT id, name, last_name, email FROM `users` WERE id = ?",
+      [id],
+      function (err, results, fields) {
+
+        if (err) throw err;
+        if (results.length === 0) {
+          throw "no hay usuarios"
+        }
+
+        res.status(200).json(results)
+      }
+    );
 
   } catch (e) {
 
