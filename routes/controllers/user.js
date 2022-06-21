@@ -81,7 +81,17 @@ const authUser = async (req, res) => {
   }
 }
 
-const getAllUsers = async (req, res) => {
+const getUserData = async (req, res) => {
+  const { id } = req.query;
+
+  if (id) {
+    await getUserById(req, res)
+  } else {
+    await getAllUsers(req, res)
+  }
+}
+
+function getAllUsers (req, res) {
   try {
     const connection = mysql.createConnection(process.env.DATABASE_URL);
 
@@ -107,14 +117,14 @@ const getAllUsers = async (req, res) => {
   }
 }
 
-const getUserById = async (req, res) => {
+function getUserById(req, res) {
   try {
-    const { id } = req.params;
+    const { id } = req.query;
 
     const connection = mysql.createConnection(process.env.DATABASE_URL);
 
     connection.query(
-      "SELECT id, name, last_name, email FROM `users` WERE id = ?",
+      "SELECT id, name, last_name, email FROM `users` WHERE id = ?",
       [id],
       function (err, results, fields) {
 
@@ -244,5 +254,6 @@ module.exports = {
   getAllUserEventsWithAssistances,
   getAllUserFutureEventsWithAssistances,
   getAllUserPastEventsWithAssistances,
-  getAllUserFriends
+  getAllUserFriends,
+  getUserData
 };

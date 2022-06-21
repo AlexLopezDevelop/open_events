@@ -1,7 +1,7 @@
 const {
   createUser, authUser, getAllUsers, getUserById, searchUser, getUserStatistics, editUser, deleteAuthUser,
   getAllUserEvents, getUserFutureEvents, getUserPastEvents, getUserNowEvents, getAllUserEventsWithAssistances,
-  getAllUserFutureEventsWithAssistances, getAllUserPastEventsWithAssistances, getAllUserFriends
+  getAllUserFutureEventsWithAssistances, getAllUserPastEventsWithAssistances, getAllUserFriends, getUserData
 } = require("./controllers/user");
 const { privateRoute } = require("../middleware/privateRoute");
 const userSettings = require('express').Router({ mergeParams: true });
@@ -16,7 +16,7 @@ const bodyParser = require('body-parser').json();
 
 userSettings.post("", bodyParser, createUser)
 userSettings.post("/login", bodyParser, authUser)
-userSettings.get("", privateRoute, getAllUsers)
+userSettings.get("", privateRoute, getUserData)
 userSettings.get("/:id", privateRoute, getUserById)
 userSettings.get("/search", bodyParser, searchUser)
 userSettings.get("/{id}/statistics", bodyParser, getUserStatistics)
