@@ -70,6 +70,8 @@ const authUser = async (req, res) => {
         res.status(200).json({
           "accessToken": token,
         })
+
+        connection.end();
       }
     );
 
@@ -91,7 +93,7 @@ const getUserData = async (req, res) => {
   }
 }
 
-function getAllUsers (req, res) {
+function getAllUsers(req, res) {
   try {
     const connection = mysql.createConnection(process.env.DATABASE_URL);
 
@@ -108,6 +110,8 @@ function getAllUsers (req, res) {
         res.status(200).json(results)
       }
     );
+
+    connection.end();
 
   } catch (e) {
     console.error(e);
@@ -137,32 +141,112 @@ function getUserById(req, res) {
       }
     );
 
-  } catch (e) {
+    connection.end();
 
+  } catch (e) {
+    console.error(e);
+    res.status(400).json({
+      message: e
+    })
   }
 }
 
 const searchUser = async (req, res) => {
   try {
+    const { s } = req.body
+
+    const connection = mysql.createConnection(process.env.DATABASE_URL);
+
+    connection.query(
+      "SELECT id, name, last_name, email FROM `users` WHERE name = (?) OR last_name = (?) OR email = (?)",
+      [s, s, s],
+      function (err, results, fields) {
+
+        if (err) throw err;
+        if (results.length === 0) {
+          throw "no hay usuarios"
+        }
+
+        res.status(200).json(results)
+      }
+    );
+
+    connection.end();
 
   } catch (e) {
-
+    console.error(e);
+    res.status(400).json({
+      message: e
+    })
   }
 }
 
 const getUserStatistics = async (req, res) => {
   try {
+    const { id } = req.params;
+
+    const connection = mysql.createConnection(process.env.DATABASE_URL);
+
+    connection.query(
+      "SELECT user_id, event_id, puntuation, comentary FROM `assistance` WHERE user_id = ?",
+      [id],
+      function (err, results, fields) {
+
+        if (err) throw err;
+        if (results.length === 0) {
+          throw "no hay usuarios"
+        }
+
+        res.status(200).json(results)
+      }
+    );
+
+    connection.end();
 
   } catch (e) {
-
+    console.error(e);
+    res.status(400).json({
+      message: e
+    })
   }
 }
 
 const editUser = async (req, res) => {
   try {
 
-  } catch (e) {
+    const { USER_ID } = req
+    const { name, last_name, email, password, image } = req.body
 
+    const connection = mysql.createConnection(process.env.DATABASE_URL);
+
+    const saltRounds = 10;
+    const salt = await bcrypt.genSaltSync(saltRounds);
+    const hash = await bcrypt.hashSync(password, salt);
+
+    connection.query(
+      "UPDATE `users` SET name = ?, last_name = ?, email = ?, password = ?, image = ? WHERE id = ?",
+      [name, last_name, email, hash, image, USER_ID],
+      function (err, results, fields) {
+
+        if (err) throw err;
+        if (results.length === 0) {
+          throw "no se ha podido editar el usuario"
+        }
+
+        res.status(200).json({
+          "name": name,
+          "last_name": last_name,
+          "email": email,
+          "password": hash,
+          "image": image
+        })
+      }
+    );
+
+  } catch (e) {
+    res.status(400).json({
+      message: e
+    })
   }
 }
 
