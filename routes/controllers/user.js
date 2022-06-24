@@ -17,9 +17,9 @@ const createUser = async (req, res) => {
       [name, last_name, email, encryptedPassword, image],
       function (err, results, fields) {
 
-        if (err) throw err;
+        if (err) res.status(400);
         if (results.length === 0) {
-          throw ("no se ha podido añadir el usuario")
+          res.status(400)
         }
 
         res.status(200).json({
@@ -53,16 +53,16 @@ const authUser = async (req, res) => {
       function (err, results, fields) {
 
         if (err) {
-          throw (JSON.stringify(err))
+          res.status(400)
         }
         if (results.length === 0) {
-          throw ("user not found")
+          res.status(400)
         }
 
         const user = results[0];
 
         if (!bcrypt.compareSync(password, user.password)) {
-          throw ("password incorrect")
+          res.status(400)
         }
 
         const token = jwt.sign({ id: user.id, name: user.name }, process.env.JWT_KEY);  // creamos el token con el payload y la clave secreta
@@ -102,9 +102,9 @@ function getAllUsers(req, res) {
       [],
       function (err, results, fields) {
 
-        if (err) throw err;
+        if (err) res.status(400);
         if (results.length === 0) {
-          throw "no hay usuarios"
+          res.status(400)
         }
 
         res.status(200).json(results)
@@ -132,9 +132,9 @@ function getUserById(req, res) {
       [id],
       function (err, results, fields) {
 
-        if (err) throw err;
+        if (err) res.status(400);
         if (results.length === 0) {
-          throw "no hay usuarios"
+          res.status(400)
         }
 
         res.status(200).json(results)
@@ -162,9 +162,9 @@ const searchUser = async (req, res) => {
       [s, s, s],
       function (err, results, fields) {
 
-        if (err) throw err;
+        if (err) res.status(400);
         if (results.length === 0) {
-          throw "no hay usuarios"
+          res.status(400)
         }
 
         res.status(200).json(results)
@@ -192,9 +192,9 @@ const getUserStatistics = async (req, res) => {
       [id],
       function (err, results, fields) {
 
-        if (err) throw err;
+        if (err) res.status(400);
         if (results.length === 0) {
-          throw "no hay usuarios"
+          res.status(400)
         }
 
         res.status(200).json(results) // TODO: Calcualte statistics
@@ -228,9 +228,9 @@ const editUser = async (req, res) => {
       [name, last_name, email, hash, image, USER_ID],
       function (err, results, fields) {
 
-        if (err) throw err;
+        if (err) res.status(400);
         if (results.length === 0) {
-          throw "no se ha podido editar el usuario"
+          res.status(400)
         }
 
         res.status(200).json({
@@ -261,9 +261,9 @@ const deleteAuthUser = async (req, res) => {
       [USER_ID],
       function (err, results, fields) {
 
-        if (err) throw err;
+        if (err) res.status(400);
         if (results.length === 0) {
-          throw "no se ha podido borrar el usuario"
+          res.status(400)
         }
 
         res.status(200)
@@ -287,9 +287,9 @@ const getAllUserEvents = async (req, res) => {
       [id],
       function (err, results, fields) {
 
-        if (err) throw err;
+        if (err) res.status(400);
         if (results.length === 0) {
-          throw "no hay eventos"
+          res.status(400)
         }
 
         res.status(200).json(results)
@@ -315,9 +315,9 @@ const getUserFutureEvents = async (req, res) => {
       [id],
       function (err, results, fields) {
 
-        if (err) throw err;
+        if (err) res.status(400);
         if (results.length === 0) {
-          throw "no hay eventos"
+          res.status(400)
         }
 
         res.status(200).json(results)
@@ -344,9 +344,9 @@ const getUserPastEvents = async (req, res) => {
       [id],
       function (err, results, fields) {
 
-        if (err) throw err;
+        if (err) res.status(400);
         if (results.length === 0) {
-          throw "no hay eventos"
+          res.status(400)
         }
 
         res.status(200).json(results)
@@ -373,9 +373,9 @@ const getUserNowEvents = async (req, res) => {
       [id],
       function (err, results, fields) {
 
-        if (err) throw err;
+        if (err) res.status(400);
         if (results.length === 0) {
-          throw "no hay eventos"
+          res.status(400)
         }
 
         res.status(200).json(results)
@@ -402,9 +402,9 @@ const getAllUserEventsWithAssistances = async (req, res) => {
       [id],
       function (err, results, fields) {
 
-        if (err) throw err;
+        if (err) res.status(400);
         if (results.length === 0) {
-          throw "no hay eventos"
+          res.status(400)
         }
 
         const events = []
@@ -467,9 +467,9 @@ const getAllUserFutureEventsWithAssistances = async (req, res) => {
       [id],
       function (err, results, fields) {
 
-        if (err) throw err;
+        if (err) res.status(400);
         if (results.length === 0) {
-          throw "no hay eventos"
+          res.status(400)
         }
 
         const events = []
@@ -532,9 +532,9 @@ const getAllUserPastEventsWithAssistances = async (req, res) => {
       [id],
       function (err, results, fields) {
 
-        if (err) throw err;
+        if (err) res.status(400);
         if (results.length === 0) {
-          throw "no hay eventos"
+          res.status(400)
         }
 
         const events = []
@@ -597,9 +597,9 @@ const getAllUserFriends = async (req, res) => {
       [id],
       function (err, results, fields) {
 
-        if (err) throw err;
+        if (err) res.status(400);
         if (results.length === 0) {
-          throw "no hay amigos"
+          res.status(400)
         }
 
         const friends = []
