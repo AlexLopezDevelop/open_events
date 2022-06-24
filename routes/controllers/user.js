@@ -311,7 +311,7 @@ const getUserFutureEvents = async (req, res) => {
     const connection = mysql.createConnection(process.env.DATABASE_URL);
 
     connection.query(
-      "SELECT  id, name, owner_id, date, image, location, description, eventStart_date, eventEnd_date, n_participators, slug, 'type' FROM `events` WHERE  eventStart_date > CURDATE();",
+      "SELECT  id, name, owner_id, date, image, location, description, eventStart_date, eventEnd_date, n_participators, slug, 'type' FROM `events` WHERE eventStart_date > CURDATE();",
       [id],
       function (err, results, fields) {
 
@@ -369,7 +369,7 @@ const getUserNowEvents = async (req, res) => {
     const connection = mysql.createConnection(process.env.DATABASE_URL);
 
     connection.query(
-      "SELECT  id, name, owner_id, date, image, location, description, eventStart_date, eventEnd_date, n_participators, slug, 'type' FROM `events` WHERE  eventStart_date <= CURDATE() AND eventEnd_date >= CURDATE();",
+      "SELECT  id, name, owner_id, date, image, location, description, eventStart_date, eventEnd_date, n_participators, slug, 'type' FROM `events` WHERE eventStart_date <= CURDATE() AND eventEnd_date >= CURDATE();",
       [id],
       function (err, results, fields) {
 
@@ -385,7 +385,9 @@ const getUserNowEvents = async (req, res) => {
     connection.end();
 
   } catch (e) {
-
+    res.status(400).json({
+      message: e
+    })
   }
 }
 
@@ -405,68 +407,231 @@ const getAllUserEventsWithAssistances = async (req, res) => {
           throw "no hay eventos"
         }
 
-        const {
-          id,
-          name,
-          owner_id,
-          date,
-          image,
-          location,
-          description,
-          eventStart_date,
-          eventEnd_date,
-          n_participators,
-          slug,
-          type,
-          comentary
-        } = results[0]
+        const events = []
 
-        res.status(200).json({
-          "id": id,
-          "name": name,
-          "owner_id": owner_id,
-          "date": date,
-          "image": image,
-          "location": location,
-          "description": description,
-          "eventStart_date": eventStart_date,
-          "eventEnd_date": eventEnd_date,
-          "n_participators": n_participators,
-          "slug": slug,
-          "type": type,
-          "comentary": comentary,
-        })
+        for (let i = 0; i < results.length; i++) {
+          const {
+            id,
+            name,
+            owner_id,
+            date,
+            image,
+            location,
+            description,
+            eventStart_date,
+            eventEnd_date,
+            n_participators,
+            slug,
+            type,
+            comentary
+          } = results[i]
+
+          events.push({
+            "id": id,
+            "name": name,
+            "owner_id": owner_id,
+            "date": date,
+            "image": image,
+            "location": location,
+            "description": description,
+            "eventStart_date": eventStart_date,
+            "eventEnd_date": eventEnd_date,
+            "n_participators": n_participators,
+            "slug": slug,
+            "type": type,
+            "comentary": comentary,
+          })
+        }
+
+        res.status(200).json(events)
       }
     );
 
     connection.end();
 
   } catch (e) {
-
+    res.status(400).json({
+      message: e
+    })
   }
 }
 
 const getAllUserFutureEventsWithAssistances = async (req, res) => {
   try {
+    const { id } = req.params;
+
+    const connection = mysql.createConnection(process.env.DATABASE_URL);
+
+    connection.query(
+      "SELECT  id, name, owner_id, date, image, location, description, eventStart_date, eventEnd_date, n_participators, slug, t2.user_id, t2.event_id, t2.puntuation, t2.comentary 'type' FROM `events` t1 INNER JOIN assistance t2 ON t1.owner_id = t2.user_id WHERE t1.owner_id = ? AND eventStart_date > CURDATE()",
+      [id],
+      function (err, results, fields) {
+
+        if (err) throw err;
+        if (results.length === 0) {
+          throw "no hay eventos"
+        }
+
+        const events = []
+
+        for (let i = 0; i < results.length; i++) {
+          const {
+            id,
+            name,
+            owner_id,
+            date,
+            image,
+            location,
+            description,
+            eventStart_date,
+            eventEnd_date,
+            n_participators,
+            slug,
+            type,
+            comentary
+          } = results[i]
+
+          events.push({
+            "id": id,
+            "name": name,
+            "owner_id": owner_id,
+            "date": date,
+            "image": image,
+            "location": location,
+            "description": description,
+            "eventStart_date": eventStart_date,
+            "eventEnd_date": eventEnd_date,
+            "n_participators": n_participators,
+            "slug": slug,
+            "type": type,
+            "comentary": comentary,
+          })
+        }
+
+        res.status(200).json(events)
+      }
+    );
+
+    connection.end();
 
   } catch (e) {
-
+    res.status(400).json({
+      message: e
+    })
   }
 }
 
 const getAllUserPastEventsWithAssistances = async (req, res) => {
   try {
+    const { id } = req.params;
+
+    const connection = mysql.createConnection(process.env.DATABASE_URL);
+
+    connection.query(
+      "SELECT  id, name, owner_id, date, image, location, description, eventStart_date, eventEnd_date, n_participators, slug, t2.user_id, t2.event_id, t2.puntuation, t2.comentary 'type' FROM `events` t1 INNER JOIN assistance t2 ON t1.owner_id = t2.user_id WHERE t1.owner_id = ? AND eventStart_date < CURDATE()",
+      [id],
+      function (err, results, fields) {
+
+        if (err) throw err;
+        if (results.length === 0) {
+          throw "no hay eventos"
+        }
+
+        const events = []
+
+        for (let i = 0; i < results.length; i++) {
+          const {
+            id,
+            name,
+            owner_id,
+            date,
+            image,
+            location,
+            description,
+            eventStart_date,
+            eventEnd_date,
+            n_participators,
+            slug,
+            type,
+            comentary
+          } = results[i]
+
+          events.push({
+            "id": id,
+            "name": name,
+            "owner_id": owner_id,
+            "date": date,
+            "image": image,
+            "location": location,
+            "description": description,
+            "eventStart_date": eventStart_date,
+            "eventEnd_date": eventEnd_date,
+            "n_participators": n_participators,
+            "slug": slug,
+            "type": type,
+            "comentary": comentary,
+          })
+        }
+
+        res.status(200).json(events)
+      }
+    );
+
+    connection.end();
 
   } catch (e) {
-
+    res.status(400).json({
+      message: e
+    })
   }
 }
 
 const getAllUserFriends = async (req, res) => {
   try {
+    const { id } = req.params;
+
+    const connection = mysql.createConnection(process.env.DATABASE_URL);
+
+    connection.query(
+      "SELECT user_id, user_id_friend, status, t2.name, t2.last_name, t2.email, t2.image FROM friends t1 INNER JOIN users t2 ON t1.user_id_friend = t2.id WHERE user_id = ?",
+      [id],
+      function (err, results, fields) {
+
+        if (err) throw err;
+        if (results.length === 0) {
+          throw "no hay amigos"
+        }
+
+        const friends = []
+
+        for (let i = 0; i < results.length; i++) {
+          const {
+            user_id,
+            name,
+            last_name,
+            email,
+            image
+          } = results[i]
+
+          friends.push({
+            "id": user_id,
+            "name": name,
+            "last_name": last_name,
+            "email": email,
+            "image": image,
+          })
+        }
+
+        res.status(200).json(friends)
+      }
+    );
+
+    connection.end();
 
   } catch (e) {
-
+    res.status(400).json({
+      message: e
+    })
   }
 }
 
