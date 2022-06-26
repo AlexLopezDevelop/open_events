@@ -11,7 +11,6 @@ const createUser = async (req, res) => {
     const connection = mysql.createConnection(process.env.DATABASE_URL);
     const encryptedPassword = await bcrypt.hash(password, 10);
 
-
     connection.query(
       "INSERT INTO `users` ( name, last_name, email, password, image ) VALUES (?, ?, ?, ?, ?)",
       [name, last_name, email, encryptedPassword, image],
@@ -311,7 +310,7 @@ const getUserFutureEvents = async (req, res) => {
     const connection = mysql.createConnection(process.env.DATABASE_URL);
 
     connection.query(
-      "SELECT  id, name, owner_id, date, image, location, description, eventStart_date, eventEnd_date, n_participators, slug, 'type' FROM `events` WHERE eventStart_date > CURDATE();",
+      "SELECT  id, name, owner_id, date, image, location, description, eventStart_date, eventEnd_date, n_participators, slug, 'type' FROM `events` WHERE eventStart_date > CURDATE() AND owner_id = ?",
       [id],
       function (err, results, fields) {
 
@@ -340,7 +339,7 @@ const getUserPastEvents = async (req, res) => {
     const connection = mysql.createConnection(process.env.DATABASE_URL);
 
     connection.query(
-      "SELECT  id, name, owner_id, date, image, location, description, eventStart_date, eventEnd_date, n_participators, slug, 'type' FROM `events` WHERE  eventEnd_date < CURDATE();",
+      "SELECT  id, name, owner_id, date, image, location, description, eventStart_date, eventEnd_date, n_participators, slug, 'type' FROM `events` WHERE  eventEnd_date < CURDATE() AND owner_id = ?",
       [id],
       function (err, results, fields) {
 
@@ -369,7 +368,7 @@ const getUserNowEvents = async (req, res) => {
     const connection = mysql.createConnection(process.env.DATABASE_URL);
 
     connection.query(
-      "SELECT  id, name, owner_id, date, image, location, description, eventStart_date, eventEnd_date, n_participators, slug, 'type' FROM `events` WHERE eventStart_date <= CURDATE() AND eventEnd_date >= CURDATE();",
+      "SELECT  id, name, owner_id, date, image, location, description, eventStart_date, eventEnd_date, n_participators, slug, 'type' FROM `events` WHERE eventStart_date <= CURDATE() AND eventEnd_date >= CURDATE() AND owner_id = ?",
       [id],
       function (err, results, fields) {
 

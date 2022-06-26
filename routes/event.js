@@ -1,24 +1,24 @@
 const {
   createEvent,
-  getAllFutureEvents,
-  getEventById,
+  getEventData,
   getAllFutureEventsByScore,
   searchEvent, editEvent, deleteEvent, getAllAssistancesById, getAssistance, createAssistance, editAssistance,
   deleteAssistance
 } = require("./controllers/event");
+const { privateRoute } = require("../middleware/privateRoute");
 const eventSettings = require('express').Router({ mergeParams: true });
+const bodyParser = require('body-parser').json();
 
-eventSettings.post("", createEvent)
-eventSettings.get("", getAllFutureEvents)
-eventSettings.get("/{id}", getEventById)
-eventSettings.get("/best", getAllFutureEventsByScore)
-eventSettings.get("/search", searchEvent)
-eventSettings.put("/{id}", editEvent)
-eventSettings.delete("/{id}", deleteEvent)
-eventSettings.get("/{id}/assistances", getAllAssistancesById)
-eventSettings.get("/{event_id}/assistances/{user_id}", getAssistance)
-eventSettings.post("/{id}/assistances", createAssistance)
-eventSettings.put("/{id}/assistances", editAssistance)
-eventSettings.delete("/{id}/assistances", deleteAssistance)
+eventSettings.post("", privateRoute, bodyParser, createEvent)
+eventSettings.get("", privateRoute, bodyParser, getEventData)
+eventSettings.get("/best", privateRoute, bodyParser, getAllFutureEventsByScore)
+eventSettings.get("/search", privateRoute, bodyParser, searchEvent)
+eventSettings.put("", privateRoute, bodyParser, editEvent)
+eventSettings.delete("", privateRoute, bodyParser, deleteEvent)
+eventSettings.get("/:id/assistances", privateRoute, bodyParser, getAllAssistancesById)
+eventSettings.get("/:event_id/assistances/{user_id}", getAssistance)
+eventSettings.post("/:id/assistances", createAssistance)
+eventSettings.put("/:id/assistances", editAssistance)
+eventSettings.delete("/:id/assistances", deleteAssistance)
 
 module.exports = eventSettings;
