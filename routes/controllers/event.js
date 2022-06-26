@@ -338,6 +338,25 @@ const getAssistance = async (req, res) => {
 
 const createAssistance = async (req, res) => {
   try {
+    const { id } = req.params;
+
+    const connection = mysql.createConnection(process.env.DATABASE_URL);
+
+    connection.query(
+      "UPDATE `events` SET `n_participators` = `n_participators` + 1 WHERE `id` = ?",
+      [id],
+      function (err, results, fields) {
+
+        if (err) res.status(400);
+        if (results.length === 0) {
+          res.status(400)
+        }
+
+        res.status(200).json(results)
+      }
+    );
+
+    connection.end();
 
   } catch (e) {
     console.error(e);
@@ -349,6 +368,26 @@ const createAssistance = async (req, res) => {
 
 const editAssistance = async (req, res) => {
   try {
+    const { id } = req.params;
+    const { puntuation, comentary } = req.body;
+
+    const connection = mysql.createConnection(process.env.DATABASE_URL);
+
+    connection.query(
+      "UPDATE `assistance` SET puntuation = ?, comentary = ? WHERE event_id = ?",
+      [puntuation, comentary, id],
+      function (err, results, fields) {
+
+        if (err) res.status(400);
+        if (results.length === 0) {
+          res.status(400)
+        }
+
+        res.status(200).json(results)
+      }
+    );
+
+    connection.end();
 
   } catch (e) {
     console.error(e);
@@ -360,6 +399,25 @@ const editAssistance = async (req, res) => {
 
 const deleteAssistance = async (req, res) => {
   try {
+    const { id } = req.params;
+
+    const connection = mysql.createConnection(process.env.DATABASE_URL);
+
+    connection.query(
+      "UPDATE `events` SET `n_participators` = `n_participators` - 1 WHERE `id` = ?",
+      [id],
+      function (err, results, fields) {
+
+        if (err) res.status(400);
+        if (results.length === 0) {
+          res.status(400)
+        }
+
+        res.status(200).json(results)
+      }
+    );
+
+    connection.end();
 
   } catch (e) {
     console.error(e);

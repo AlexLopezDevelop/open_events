@@ -17,8 +17,8 @@ eventSettings.put("", privateRoute, bodyParser, editEvent)
 eventSettings.delete("", privateRoute, bodyParser, deleteEvent)
 eventSettings.get("/:id/assistances", privateRoute, bodyParser, getAllAssistancesById)
 eventSettings.get("/:event_id/assistances/:user_id", privateRoute, bodyParser, getAssistance)
-eventSettings.post("/:id/assistances", createAssistance)
-eventSettings.put("/:id/assistances", editAssistance)
-eventSettings.delete("/:id/assistances", deleteAssistance)
+eventSettings.post("/:id/assistances", privateRoute, bodyParser, createAssistance)
+eventSettings.put("/:id/assistances", privateRoute, bodyParser, editAssistance)
+eventSettings.delete("/:id/assistances", privateRoute, bodyParser, deleteAssistance)
 
 module.exports = eventSettings;
