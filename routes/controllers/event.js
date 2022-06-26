@@ -292,6 +292,41 @@ const getAllAssistancesById = async (req, res) => {
 
 const getAssistance = async (req, res) => {
   try {
+    const { event_id, user_id } = req.params;
+
+    const connection = mysql.createConnection(process.env.DATABASE_URL);
+
+    connection.query(
+      "SELECT user_id, event_id, puntuation, comentary FROM `assistance` WHERE user_id = ? AND event_id = ?;",
+      [user_id, event_id],
+      function (err, results, fields) {
+
+        if (err) res.status(400);
+        if (results.length === 0) {
+          res.status(400)
+        }
+
+        const events = []
+
+        for (let i = 0; i < results.length; i++) {
+          const {
+            puntuation,
+            comentary
+          } = results[i]
+
+          events.push({
+            "user_id": user_id,
+            "event_id": event_id,
+            "puntuation": puntuation,
+            "comentary": comentary
+          })
+        }
+
+        res.status(200).json(events)
+      }
+    );
+
+    connection.end();
 
   } catch (e) {
     console.error(e);
