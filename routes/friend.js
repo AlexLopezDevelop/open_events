@@ -6,8 +6,8 @@ const bodyParser = require('body-parser').json();
 
 friendSettings.get("/requests", privateRoute, bodyParser, getAllFriendsRequests)
 friendSettings.get("", privateRoute, bodyParser, getAllFriends)
-friendSettings.post("/:id", createFriendRequest)
-friendSettings.put("/:id", acceptFriendRequest)
-friendSettings.delete("/:id", rejectFriendRequest)
+friendSettings.post("/:id", privateRoute, bodyParser, createFriendRequest)
+friendSettings.put("/:id", privateRoute, bodyParser, acceptFriendRequest)
+friendSettings.delete("/:id", privateRoute, bodyParser, rejectFriendRequest)
 
 module.exports = friendSettings;
