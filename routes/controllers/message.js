@@ -11,9 +11,9 @@ const createMessage = async (req, res) => {
       [content, user_id_send, user_id_recived],
       function (err, results, fields) {
 
-        if (err) res.status(400);
+        if (err) res.status(400).json({});
         if (results.length === 0) {
-          res.status(400)
+          res.status(400).json({})
         }
 
         connection.query(
@@ -21,9 +21,9 @@ const createMessage = async (req, res) => {
           [],
           function (err, results, fields) {
 
-            if (err) res.status(400);
+            if (err) res.status(400).json({});
             if (results.length === 0) {
-              res.status(400)
+              res.status(400).json({})
             }
 
             const {
@@ -66,9 +66,9 @@ const getMessages = async (req, res) => {
       [USER_ID, USER_ID],
       function (err, results, fields) {
 
-        if (err) res.status(400);
+        if (err) res.status(400).json({});
         if (results.length === 0) {
-          res.status(400)
+          res.status(400).json({})
         }
 
         res.status(200).json(results)
@@ -95,9 +95,9 @@ const getMessagesById = async (req, res) => {
       [id],
       function (err, results, fields) {
 
-        if (err) res.status(400);
+        if (err) res.status(400).json({});
         if (results.length === 0) {
-          res.status(400)
+          res.status(400).json({})
         }
 
         res.status(200).json(results)

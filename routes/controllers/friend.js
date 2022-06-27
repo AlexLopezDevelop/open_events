@@ -1,6 +1,4 @@
 const mysql = require("mysql2");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 
 const getAllFriendsRequests = async (req, res) => {
   try {
@@ -13,9 +11,9 @@ const getAllFriendsRequests = async (req, res) => {
       [USER_ID],
       function (err, results, fields) {
 
-        if (err) res.status(400);
+        if (err) res.status(400).json({});
         if (results.length === 0) {
-          res.status(400)
+          res.status(400).json({})
         }
 
         res.status(200).json(results)
@@ -42,9 +40,9 @@ const getAllFriends = async (req, res) => {
       [USER_ID],
       function (err, results, fields) {
 
-        if (err) res.status(400);
+        if (err) res.status(400).json({});
         if (results.length === 0) {
-          res.status(400)
+          res.status(400).json({})
         }
 
         res.status(200).json(results)
@@ -73,10 +71,10 @@ const createFriendRequest = async (req, res) => {
       function (err, results, fields) {
 
         if (err) {
-          res.status(400)
+          res.status(400).json({})
         }
         if (results.length === 0) {
-          res.status(400)
+          res.status(400).json({})
         }
 
         res.status(200).json(results)
@@ -104,9 +102,9 @@ const acceptFriendRequest = async (req, res) => {
       [1, id, USER_ID],
       function (err, results, fields) {
 
-        if (err) res.status(400);
+        if (err) res.status(400).json({});
         if (results.length === 0) {
-          res.status(400)
+          res.status(400).json({})
         }
 
         res.status(200).json(results)
@@ -134,9 +132,9 @@ const rejectFriendRequest = async (req, res) => {
       [-1, id, USER_ID],
       function (err, results, fields) {
 
-        if (err) res.status(400);
+        if (err) res.status(400).json({});
         if (results.length === 0) {
-          res.status(400)
+          res.status(400).json({})
         }
 
         res.status(200).json(results)

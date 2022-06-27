@@ -11,9 +11,9 @@ const getAssistance = async (req, res) => {
       [user_id, event_id],
       function (err, results, fields) {
 
-        if (err) res.status(400);
+        if (err) res.status(400).json({});
         if (results.length === 0) {
-          res.status(400)
+          res.status(400).json({})
         }
 
         res.status(200).json(results)
@@ -41,9 +41,9 @@ const createAssistance = async (req, res) => {
       [user_id, event_id],
       function (err, results, fields) {
 
-        if (err) res.status(400);
+        if (err) res.status(400).json({});
         if (results.length === 0) {
-          res.status(400)
+          res.status(400).json({})
         }
 
         res.status(200).json({})
@@ -73,9 +73,9 @@ const editAssistance = async (req, res) => {
       [puntuation, comentary, user_id, event_id],
       function (err, results, fields) {
 
-        if (err) res.status(400);
+        if (err) res.status(400).json({});
         if (results.length === 0) {
-          res.status(400)
+          res.status(400).json({})
         }
 
         res.status(200).json({})
@@ -103,9 +103,9 @@ const deleteAssistance = async (req, res) => {
       [user_id, event_id],
       function (err, results, fields) {
 
-        if (err) res.status(400);
+        if (err) res.status(400).json({});
         if (results.length === 0) {
-          res.status(400)
+          res.status(400).json({})
         }
 
         res.status(200).json({})

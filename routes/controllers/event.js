@@ -13,9 +13,9 @@ const createEvent = async (req, res) => {
       [name, USER_ID, new Date(), image, location, description, eventStart_date, eventEnd_date, n_participators, type],
       function (err, results, fields) {
 
-        if (err) res.status(400);
+        if (err) res.status(400).json({});
         if (results.length === 0) {
-          res.status(400)
+          res.status(400).json({})
         }
 
         res.status(200).json({
@@ -60,9 +60,9 @@ const getAllFutureEvents = async (req, res) => {
       [],
       function (err, results, fields) {
 
-        if (err) res.status(400);
+        if (err) res.status(400).json({});
         if (results.length === 0) {
-          res.status(400)
+          res.status(400).json({})
         }
 
         res.status(200).json(results)
@@ -90,9 +90,9 @@ const getEventById = async (req, res) => {
       [id],
       function (err, results, fields) {
 
-        if (err) res.status(400);
+        if (err) res.status(400).json({});
         if (results.length === 0) {
-          res.status(400)
+          res.status(400).json({})
         }
 
         res.status(200).json(results)
@@ -118,9 +118,9 @@ const getAllFutureEventsByScore = async (req, res) => {
       [],
       function (err, results, fields) {
 
-        if (err) res.status(400);
+        if (err) res.status(400).json({});
         if (results.length === 0) {
-          res.status(400)
+          res.status(400).json({})
         }
 
         res.status(200).json(results)
@@ -148,9 +148,9 @@ const searchEvent = async (req, res) => {
       [s, s, s],
       function (err, results, fields) {
 
-        if (err) res.status(400);
+        if (err) res.status(400).json({});
         if (results.length === 0) {
-          res.status(400)
+          res.status(400).json({})
         }
 
         res.status(200).json(results)
@@ -178,7 +178,7 @@ const editEvent = async (req, res) => {
       [name, image, location, description, eventStart_date, eventEnd_date, n_participators, type, id, USER_ID],
       function (err, results, fields) {
 
-        if (err) res.status(400);
+        if (err) res.status(400).json({});
         if (results.length === 0 || results.affectedRows === 0) {
           res.status(400).json({
             message: "No se pudo editar el evento"
@@ -219,9 +219,9 @@ const deleteEvent = async (req, res) => {
       [id],
       function (err, results, fields) {
 
-        if (err) res.status(400);
+        if (err) res.status(400).json({});
         if (results.length === 0) {
-          res.status(400)
+          res.status(400).json({})
         }
 
         res.status(200).json({
@@ -250,9 +250,9 @@ const getAllAssistancesById = async (req, res) => {
       [id],
       function (err, results, fields) {
 
-        if (err) res.status(400);
+        if (err) res.status(400).json({});
         if (results.length === 0) {
-          res.status(400)
+          res.status(400).json({})
         }
 
         const events = []
@@ -301,9 +301,9 @@ const getAssistance = async (req, res) => {
       [user_id, event_id],
       function (err, results, fields) {
 
-        if (err) res.status(400);
+        if (err) res.status(400).json({});
         if (results.length === 0) {
-          res.status(400)
+          res.status(400).json({})
         }
 
         const events = []
@@ -347,9 +347,9 @@ const createAssistance = async (req, res) => {
       [id],
       function (err, results, fields) {
 
-        if (err) res.status(400);
+        if (err) res.status(400).json({});
         if (results.length === 0) {
-          res.status(400)
+          res.status(400).json({})
         }
 
         res.status(200).json(results)
@@ -378,9 +378,9 @@ const editAssistance = async (req, res) => {
       [puntuation, comentary, id],
       function (err, results, fields) {
 
-        if (err) res.status(400);
+        if (err) res.status(400).json({});
         if (results.length === 0) {
-          res.status(400)
+          res.status(400).json({})
         }
 
         res.status(200).json(results)
@@ -408,9 +408,9 @@ const deleteAssistance = async (req, res) => {
       [id],
       function (err, results, fields) {
 
-        if (err) res.status(400);
+        if (err) res.status(400).json({});
         if (results.length === 0) {
-          res.status(400)
+          res.status(400).json({})
         }
 
         res.status(200).json(results)
